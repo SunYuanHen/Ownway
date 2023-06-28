@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 20c3cbea3a1514e4ab2103124a5a87e2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - battleEvent: {fileID: 9010710373300956205, guid: 6682c56ca332a3b4eb2ce32efd3edf0c, type: 3}
+  - chestEvent: {fileID: 1458187221101232497, guid: c29ab7ae104aca049b3eb91639a4a52f, type: 3}
+  - bossEvent: {fileID: 2744795265027403470, guid: 1f6be9d9ce300a9479f2cdf88e16532d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
