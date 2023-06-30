@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class EventsLoadonMap : MonoBehaviour
@@ -30,10 +29,7 @@ public class EventsLoadonMap : MonoBehaviour
                 if (r == 2 && BossSpawned)r = 1;
                 if (r == 2 && !BossSpawned) BossSpawned = true;
                 frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(r);
-                //Debug.Log("vertical:" + vertical.name + " frame:"+frame.name + " randomNumber: " + randomNumber + " r = " + r);
             }
         }
-        Debug.Log("A NewWorld has begun~");
     }
-
 }
