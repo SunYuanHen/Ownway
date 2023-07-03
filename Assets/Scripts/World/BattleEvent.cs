@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BattleEvent : MonoBehaviour
 {
-    public void Battle()
-    {
+    public GameObject battleevent;
 
-    } 
+    private void Start()
+    {
+        
+    }
 }
