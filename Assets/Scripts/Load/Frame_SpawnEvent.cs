@@ -10,9 +10,9 @@ public class Frame_SpawnEvent : MonoBehaviour
     {
         GameObject blockEvent= Instantiate(Event[r], transform);
     }
-    public void ChangeEvent()
+    public void ClearEvent()
     {
         Debug.Log("EventChanged!");
-        GetComponentInParent<EventsLoadonMap>().ChangeEvent(x, y);
+        GetComponentInParent<EventsLoadonMap>().ClearEvent(x, y);
     }
 }
