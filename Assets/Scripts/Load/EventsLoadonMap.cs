@@ -1,9 +1,8 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class EventsLoadonMap : MonoBehaviour
 {
-    public GameObject horizontal,player,BattleCanvas;
+    public GameObject horizontal,player,BattleCanvas,Scripts;
     int[,] eventSaver = new int[5, 5];
     int playerx, playery;
     Transform vertical, frame, delEvent;
@@ -12,7 +11,6 @@ public class EventsLoadonMap : MonoBehaviour
         //Set eventSaver to all 0
         for (int i = 0; i < 5; i++) { for (int j = 0; j < 5; j++) eventSaver[i, j] = 3; }
         SpawnEvent();
-        //for (int i = 0; i < 5; i++){ Debug.Log("["+eventSaver[i,0]+"]" + "[" + eventSaver[i,1] + "]" +"[" + eventSaver[i,2] + "]" + "[" + eventSaver[i, 3] + "]" + "[" + eventSaver[i, 4] + "]");}
         playerx = 2;
         playery = playerx;
         player.transform.position = new Vector3(0, 1.38f, 0);
@@ -24,25 +22,25 @@ public class EventsLoadonMap : MonoBehaviour
         {
             player.transform.Translate(-1.25f, 0, 0);
             playerx--;
-            TestPosition();
+            //TestPosition();
         }
         else if (Input.GetKeyDown(KeyCode.D)&& player.transform.GetComponent<Transform>().position.x < 2.5f)
         {
             player.transform.Translate(1.25f, 0, 0);
             playerx++;
-            TestPosition();
+            //TestPosition();
         }
         else if (Input.GetKeyDown(KeyCode.W) && player.transform.GetComponent<Transform>().position.y < 3.9f)
         {
             player.transform.Translate(0, 1.3f, 0);
             playery--;
-            TestPosition();
+            //TestPosition();
         }
         else if (Input.GetKeyDown(KeyCode.S) && player.transform.GetComponent<Transform>().position.y > -1.2f)
         {
             player.transform.Translate(0, -1.3f, 0);
             playery++;
-            TestPosition();
+            //TestPosition();
         }
         ActiveEvent(playerx,playery);
     }
@@ -69,7 +67,7 @@ public class EventsLoadonMap : MonoBehaviour
                 else if (randomNumber < 81) r = 0;
                 else r = 1;
                 if (i == 2 && j == 2) r = 3;
-                if (r == 2 && BossSpawned)r = 1;
+                if (r == 2 && BossSpawned) r = 1;
                 if (r == 2 && !BossSpawned) BossSpawned = true;
                 frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(r);
                 eventSaver[i, j] = r;
@@ -91,18 +89,17 @@ public class EventsLoadonMap : MonoBehaviour
     {
         if(eventSaver[x,y] == 0)
         {
-            Debug.Log("Fight!");
-            Instantiate(BattleCanvas, new Vector3(0,1f,0), Quaternion.identity);
+            BattleCanvas.transform.position = new Vector3(0, 0, 0);
+            Scripts.GetComponent<PlayerStat>().BattleEvent();
             ClearEvent(x, y);
+            BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
         }
         else if(eventSaver[x, y] == 1)
         {
-            Debug.Log("Good!");
             ClearEvent(x, y);
         }
         else if (eventSaver[x, y] == 2)
         {
-            Debug.Log("Boss!");
             ClearEvent(x, y);
         }
     }
