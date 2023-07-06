@@ -4,9 +4,15 @@ using UnityEngine.UI;
 public class PlayerStat : MonoBehaviour
 {
     public Text hpText,atkText,defText,spdText;
-    public People player;
+    public Text EnameText,EhpText, EatkText, EdefText, EspdText;
+    int playerNowHp = 0,rN = 0,rH = 0,rA = 0,rD = 0,rS = 0;
+    public bool spawn = false;
+    string[] enemyName = { "野豬", "野雞", "盜賊","小偷","三角褲野蠻人","四角褲野蠻人","骷髏射手","骷髏劍士","流氓","沒穿內褲野蠻人"};
+    public People player, enemy;
+
     void Start()
     {
+        //之後會加入存檔判斷是否生成新檔案
         player = new("player", 100, 10, 10, 10);
     }
     void Update()
@@ -15,30 +21,41 @@ public class PlayerStat : MonoBehaviour
         atkText.text = player.Atk.ToString();
         defText.text = player.Def.ToString();
         spdText.text = player.Spd.ToString();
+        EnameText.text = enemy.Name;
+        EhpText.text = enemy.Hp.ToString();
+        EatkText.text = enemy.Atk.ToString();
+        EdefText.text = enemy.Def.ToString();
+        EspdText.text = enemy.Spd.ToString();
     }
 
-    int RandStat(int a,int r)
+    public void SpawnBattleEvent()
     {
-        if (a < 10)r = (Random.Range(0, r));
-        else if (a < 100) r = (Random.Range(0, r) / 10);
-        else r = (Random.Range(0, r) / 100);
-        Debug.Log("r = " + r);
-        int plus = Random.Range(0, 2);
-        Debug.Log("plus = " + plus);
-        if (plus == 1) return a + r;
-        else return a - r;
+        //Spawn Enemy
+        rN = Random.Range(0,enemyName.Length);
+        rH = player.Hp * (100 + Random.Range(0, 50) - 50) / 100;
+        rA = player.Atk * (100 + Random.Range(0, 30) - 30) / 100;
+        rD = player.Def * (100 + Random.Range(0, 30) - 30) / 100;
+        rS = player.Spd * (100 + Random.Range(0, 30) - 30) / 100;
+        enemy = new (enemyName[rN], rH, rA, rD, rS);
+        Debug.Log("Enemy:" + enemyName[rN] + "|" +  rH + "|" +  rA + "|" + rD + "|" + rS);
+        //Set player Hp
+        playerNowHp = player.Hp;
+        spawn = true;
     }
-    public void BattleEvent()
+
+    public bool End()
     {
-        Debug.Log("Battle!");
-        string[] enemyName = { "A", "B", "C" };
-        int rN = Random.Range(0, 3);
-        int rH = player.Hp, rA = player.Atk, rD = player.Def, rS = player.Spd;
-        rH += RandStat(rH, 20);
-        rA += RandStat(rA, 5);
-        rD += RandStat(rD, 5);
-        rS += RandStat(rS, 5);
-        People enemy = new(enemyName[rN],rH,rA,rD,rS);
-        Debug.Log("Enemy:" +"|" + enemyName[rN] + "|" +  rH + "|" +  rA + "|" + rD + "|" + rS);
+        if (playerNowHp == 0 || enemy.Hp == 0)
+        {
+            spawn = false;
+            return true;
+        }
+        else return false;
+    }
+
+    public bool Spawned()
+    {
+        if (spawn) return true;
+        else return false;
     }
 }
