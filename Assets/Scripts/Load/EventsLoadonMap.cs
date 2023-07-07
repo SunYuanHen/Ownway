@@ -40,13 +40,13 @@ public class EventsLoadonMap : MonoBehaviour
                 player.transform.Translate(0, -1.3f, 0);
                 playery++;
             }
-            ActiveEvent(playerx, playery);
         }
-    }
-
-    void TestPosition()//Use to check position
-    {
-        Debug.Log("Player(" + playerx + "," + playery + ")");
+        ActiveEvent(playerx, playery);
+        bool gameOver = Scripts.GetComponent<PlayerStat>().PlayerisDead();
+        if (gameOver)//玩家死亡
+        {
+            Debug.Log("玩家掛了");
+        }
     }
 
     public void SpawnEvent()
@@ -81,39 +81,51 @@ public class EventsLoadonMap : MonoBehaviour
         delEvent = frame.GetChild(0);
         delEvent.GetComponent<EventActive>().DestoryEvent();
         eventSaver[x, y] = 3;
-        //frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(3);
     }
 
     void ActiveEvent(int x,int y)
     {
         if(eventSaver[x,y] == 0)
         {
-            gamemode = 0;
-            BattleCanvas.transform.position = new Vector3(0, 1.35f, 0);
+            gamemode = 0;//battle
+            BattleCanvas.transform.position = new Vector3(0, 0, 0);
             bool spawn = Scripts.GetComponent<PlayerStat>().Spawned();
             if(!spawn)Scripts.GetComponent<PlayerStat>().SpawnBattleEvent();
             bool end = Scripts.GetComponent<PlayerStat>().End();
             if (end)
             {              
                 ClearEvent(x, y);
-                BattleCanvas.transform.position = new Vector3(-20f, 1.35f, 0);
+                BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
                 gamemode = 3;
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            { 
             }
         }
         else if(eventSaver[x, y] == 1)
         {
-            gamemode = 1;
+            gamemode = 1;//chest
+            Debug.Log("寶箱發現!");
+            //預定增加獲得能力字幕
+            Scripts.GetComponent<PlayerStat>().Upgrade();
             ClearEvent(x, y);
             gamemode = 3;
         }
         else if (eventSaver[x, y] == 2)
         {
-            gamemode = 2;
-            ClearEvent(x, y);
-            gamemode = 3;
+            gamemode = 2;//battle
+            BattleCanvas.transform.position = new Vector3(0, 0, 0);
+            bool spawn = Scripts.GetComponent<PlayerStat>().Spawned();
+            if (!spawn) Scripts.GetComponent<PlayerStat>().SpawnBossEvent();
+            bool end = Scripts.GetComponent<PlayerStat>().End();
+            if (end)
+            {
+                ClearEvent(x, y);
+                BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
+                gamemode = 3;
+            }
         }
+    }
+
+    public int GetGameMode()
+    {
+        return gamemode;
     }
 }

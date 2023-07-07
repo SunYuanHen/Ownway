@@ -14,11 +14,4 @@ public class People
         this.Def = Def;
         this.Spd = Spd;
     }
-    public void SetStat(int h, int a, int d, int s)
-    {
-        Hp = h;
-        Atk = a;
-        Def = d;
-        Spd = s;
-    }
 }
