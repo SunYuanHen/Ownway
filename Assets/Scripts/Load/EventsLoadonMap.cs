@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class EventsLoadonMap : MonoBehaviour
 {
-    public GameObject horizontal,player,BattleCanvas,Scripts;
+    public GameObject horizontal,player,BattleCanvas,DeadCanvas,Scripts;
     int[,] eventSaver = new int[5, 5];
-    int playerx, playery, gamemode = 3;
+    int playerx, playery;
+    int gamemode = 3;//0:普通戰鬥,1:寶物,2:BOSS戰.3:探索,4:死亡
     Transform vertical, frame, delEvent;
     void Start()
     {
@@ -18,7 +19,7 @@ public class EventsLoadonMap : MonoBehaviour
 
     void Update()
     {
-        if (gamemode == 3) 
+        if (gamemode == 3)//探索模式下玩家可以透過WASD移動
         {
             if (Input.GetKeyDown(KeyCode.A) && player.transform.GetComponent<Transform>().position.x > -2.5f)
             {
@@ -41,12 +42,9 @@ public class EventsLoadonMap : MonoBehaviour
                 playery++;
             }
         }
-        ActiveEvent(playerx, playery);
-        bool gameOver = Scripts.GetComponent<PlayerStat>().PlayerisDead();
-        if (gameOver)//玩家死亡
-        {
-            Debug.Log("玩家掛了");
-        }
+        //非死亡模式下觸發事件
+        if(gamemode != 4)ActiveEvent(playerx, playery);
+        else DeadCanvas.transform.position = new Vector3(0, 0, 0);
     }
 
     public void SpawnEvent()
@@ -93,16 +91,20 @@ public class EventsLoadonMap : MonoBehaviour
             if(!spawn)Scripts.GetComponent<PlayerStat>().SpawnBattleEvent();
             bool end = Scripts.GetComponent<PlayerStat>().End();
             if (end)
-            {              
-                ClearEvent(x, y);
-                BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
-                gamemode = 3;
+            {
+                bool lose = Scripts.GetComponent<PlayerStat>().PlayerisDead();
+                if (lose)gamemode = 4;
+                else
+                {
+                    ClearEvent(x, y);
+                    BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
+                    gamemode = 3;
+                }
             }
         }
         else if(eventSaver[x, y] == 1)
         {
             gamemode = 1;//chest
-            Debug.Log("寶箱發現!");
             //預定增加獲得能力字幕
             Scripts.GetComponent<PlayerStat>().Upgrade();
             ClearEvent(x, y);
@@ -110,17 +112,26 @@ public class EventsLoadonMap : MonoBehaviour
         }
         else if (eventSaver[x, y] == 2)
         {
-            gamemode = 2;//battle
+            gamemode = 2;//Boss
             BattleCanvas.transform.position = new Vector3(0, 0, 0);
             bool spawn = Scripts.GetComponent<PlayerStat>().Spawned();
             if (!spawn) Scripts.GetComponent<PlayerStat>().SpawnBossEvent();
             bool end = Scripts.GetComponent<PlayerStat>().End();
             if (end)
             {
-                ClearEvent(x, y);
-                BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
-                gamemode = 3;
+                bool lose = Scripts.GetComponent<PlayerStat>().PlayerisDead();
+                if (lose) gamemode = 4;
+                else
+                {
+                    ClearEvent(x, y);
+                    BattleCanvas.transform.position = new Vector3(-20f, 0, 0);
+                    gamemode = 3;
+                }
             }
+        }
+        else if (eventSaver[x, y] == 4)
+        {
+            //show deathcanva
         }
     }
 
