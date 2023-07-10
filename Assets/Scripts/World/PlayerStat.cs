@@ -6,11 +6,12 @@ public class PlayerStat : MonoBehaviour
     public Text nameText,hpText,atkText,defText,spdText;
     public Text hpText2, atkText2, defText2, spdText2;
     public Text EnameText,EhpText, EatkText, EdefText, EspdText;
+    public Text UpgradeText;
     int playerNowHp = 0,rN = 0,rH = 0,rA = 0,rD = 0,rS = 0,gameMode = 3,round = 0;
     public bool spawn = false,playerDown = false;
     static public People player = new("玩家",0,0,0,0);
     public People enemy = new("", 0, 0, 0, 0);
-    public GameObject Events;
+    public GameObject Events,upFrame;
     float Timer = 0,RoundTime;
 
     void Start()
@@ -54,10 +55,10 @@ public class PlayerStat : MonoBehaviour
         string[] enemyName = { "野豬", "野雞", "盜賊", "斯斯蛇", "野蠻人", "骷髏射手", "骷髏劍士", "流氓" };
         //Spawn Enemy
         rN = Random.Range(0,enemyName.Length);
-        rH = Random.Range(100, player.Hp);
-        rA = Random.Range(10, player.Atk);
-        rD = Random.Range(10, player.Def);
-        rS = Random.Range(10, player.Spd);
+        rH = Random.Range(100, player.Hp*120/100);
+        rA = Random.Range(1, player.Atk*150/100);
+        rD = Random.Range(1, player.Def);
+        rS = Random.Range(1, player.Spd*120/100);
         enemy = new (enemyName[rN], rH, rA, rD, rS);
         //Set player Hp
         playerNowHp = player.Hp;
@@ -154,22 +155,36 @@ public class PlayerStat : MonoBehaviour
         if(n == 0)//ATK++
         {
             up = (player.Atk * (100 + Random.Range(1, 50)) / 100) - player.Atk;
+            UpgradeText.text = "獲得了 " + up + "攻擊!";
+            UpgradeText.color = atkText.color;
             player.Atk += up;
         }
         else if (n == 1)//DEF++
         {
             up = (player.Def * (100 + Random.Range(1, 50)) / 100) - player.Def;
+            UpgradeText.text = "獲得了 " + up + "防禦!";
+            UpgradeText.color = defText.color;
             player.Def += up;
         }
         else if(n == 2)//SPD++
         {
             up = (player.Spd * (100 + Random.Range(1, 50)) / 100) - player.Spd;
+            UpgradeText.text = "獲得了 " + up + "速度!";
+            UpgradeText.color = spdText.color;
             player.Spd += up;
         }
         else//HP++
         {
             up = (player.Hp * (100 + Random.Range(1, 10)) / 100) - player.Hp;
+            UpgradeText.text = "獲得了 " + up + "生命!";
+            UpgradeText.color = hpText.color;
             player.Hp += up;
         }
+        upFrame.transform.position = new Vector3(6f, -1.3f, 0);
+    }
+    public void CleanText()
+    {
+        UpgradeText.text = "";
+        upFrame.transform.position = new Vector3(0,8f,0);
     }
 }
