@@ -14,13 +14,9 @@ public class PlayerStat : MonoBehaviour
     public GameObject Events,upFrame;
     float Timer = 0,RoundTime;
 
-    void Start()
-    {
-        //之後會加入存檔判斷是否生成新檔案
-        if(player.Hp == 0) player = new("玩家", 100, 20, 20, 20);
-    }
     void Update()
     {
+        if (player.Hp == 0) player = new("玩家", 125, 25, 25, 25);
         //text
         hpText.text =  "HP\t " + player.Hp.ToString();
         atkText.text = "ATK\t " + player.Atk.ToString();
@@ -55,10 +51,10 @@ public class PlayerStat : MonoBehaviour
         string[] enemyName = { "野豬", "野雞", "盜賊", "斯斯蛇", "野蠻人", "骷髏射手", "骷髏劍士", "流氓" };
         //Spawn Enemy
         rN = Random.Range(0,enemyName.Length);
-        rH = Random.Range(100, player.Hp*120/100);
-        rA = Random.Range(1, player.Atk*150/100);
-        rD = Random.Range(1, player.Def);
-        rS = Random.Range(1, player.Spd*120/100);
+        rH = Random.Range(50, player.Hp * 6 / 5);
+        rA = Random.Range(1, player.Atk * 11 / 10);
+        rD = Random.Range(1, player.Atk - 10);
+        rS = Random.Range(1, player.Spd * 3 / 2);
         enemy = new (enemyName[rN], rH, rA, rD, rS);
         //Set player Hp
         playerNowHp = player.Hp;
@@ -70,11 +66,10 @@ public class PlayerStat : MonoBehaviour
     {
         string[] enemyName = { "野豬王","盜賊老大", "神偷", "蠻人領主", "飛龍","巨人"};
         rN = Random.Range(0, enemyName.Length);
-        rH = Random.Range(player.Hp,5000);
-        if (player.Atk > 100) rA = Random.Range(player.Atk, 1000);
-        else rA = Random.Range(player.Atk,100);
-        rD = Random.Range(10, player.Def);
-        rS = player.Spd * (100 + Random.Range(1, 50) - 50) / 100;
+        rH = Random.Range(player.Hp, player.Hp * 3);
+        rA = Random.Range(player.Atk, player.Atk * 2);
+        rD = Random.Range(10, player.Atk - 10);
+        rS = Random.Range(player.Spd / 2, player.Spd * 3 / 2);
         enemy = new(enemyName[rN], rH, rA, rD, rS);
         //Set player Hp
         playerNowHp = player.Hp;
@@ -186,5 +181,26 @@ public class PlayerStat : MonoBehaviour
     {
         UpgradeText.text = "";
         upFrame.transform.position = new Vector3(0,8f,0);
+    }
+
+    public void EndGame()
+    {
+        player.Hp = 0;
+    }
+
+    public int GetStats(int i)
+    {
+        switch (i)
+        {
+            case 1:
+                return player.Hp;
+            case 2:
+                return player.Atk;
+            case 3:
+                return player.Def;
+            case 4:
+                return player.Spd;
+        }
+        return 0;
     }
 }
