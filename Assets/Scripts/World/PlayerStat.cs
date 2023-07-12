@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+//At World Scene
 public class PlayerStat : MonoBehaviour
 {
     public Text nameText,hpText,atkText,defText,spdText;
@@ -67,7 +67,8 @@ public class PlayerStat : MonoBehaviour
         string[] enemyName = { "野豬王","盜賊老大", "神偷", "蠻人領主", "飛龍","巨人"};
         rN = Random.Range(0, enemyName.Length);
         rH = Random.Range(player.Hp, player.Hp * 3);
-        rA = Random.Range(player.Atk, player.Atk * 2);
+        if (rH < 1000) rH = 1000;
+        rA = Random.Range(player.Atk, player.Atk * 3 / 2);
         rD = Random.Range(10, player.Atk - 10);
         rS = Random.Range(player.Spd / 2, player.Spd * 3 / 2);
         enemy = new(enemyName[rN], rH, rA, rD, rS);
@@ -83,8 +84,8 @@ public class PlayerStat : MonoBehaviour
         if (enemy_GotDamage <= 0) enemy_GotDamage = 1;//傷害不得低於0
         if (player_GotDamage <= 0) player_GotDamage = 1;//傷害不得低於0
         if (gameMode == 3) RoundTime = 1f;
-        else if (round > 10) RoundTime = 0.1f;
         else if (round > 30) RoundTime = 0.02f;
+        else if (round > 10) RoundTime = 0.1f;
         else RoundTime = 0.5f;
 
         if (player.Spd >= enemy.Spd)//玩家比敵人快
@@ -200,7 +201,15 @@ public class PlayerStat : MonoBehaviour
                 return player.Def;
             case 4:
                 return player.Spd;
+            default:
+                return 0;
         }
-        return 0;
+    }
+
+    public void Godmode()
+    {
+        player.Hp += 10000;
+        player.Atk += 5000;
+        player.Def += 10000;
     }
 }

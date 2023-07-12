@@ -1,5 +1,6 @@
 public class People
 {
+
     public string Name;
     public int Hp;
     public int Atk;

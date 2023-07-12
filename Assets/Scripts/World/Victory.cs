@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Victory : MonoBehaviour
@@ -13,4 +11,5 @@ public class Victory : MonoBehaviour
         VictoryCanvas.transform.position = new Vector3(10f, 10f, 0);
         Events.GetComponent<EventsLoadonMap>().SetGameMode(3);
     }
+
 }
