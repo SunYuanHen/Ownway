@@ -19,19 +19,13 @@ public class SaveFile : MonoBehaviour
             PlayerPrefs.GetInt("playerHp"), PlayerPrefs.GetInt("playerAtk"),
             PlayerPrefs.GetInt("playerDef"), PlayerPrefs.GetInt("playerSpd"));
         //載入所有存檔
-        for (int i = 0; i < 3; i++)
-        {
-            string filePath = $"/Saves/Save{i + 1}.json";
-            string fullPath = (Application.dataPath + filePath);
-            loadData[i] = File.ReadAllText(fullPath);
-            saves[i] = JsonUtility.FromJson<People>(loadData[i]);
-            Debug.Log(saves[i].Hp);
-            loadsPosition[i] = playerLoads[i].transform.position.y;
-        }
+        for (int i = 0; i < 3; i++) loadsPosition[i] = playerLoads[i].transform.position.y;
+        GetSave();
 
     }
     void Update()
     {
+        
         //設定存檔數據
         for(int i = 0; i < 3; i++)
             if(saves[i].Hp != 0) { 
@@ -94,6 +88,19 @@ public class SaveFile : MonoBehaviour
                 default:
                     break;
             }
+            GetSave();
+        }
+    }
+
+    void GetSave()
+    {
+        //載入所有存檔
+        for (int i = 0; i < 3; i++)
+        {
+            string filePath = $"/Saves/Save{i + 1}.json";
+            string fullPath = (Application.dataPath + filePath);
+            loadData[i] = File.ReadAllText(fullPath);
+            saves[i] = JsonUtility.FromJson<People>(loadData[i]);
         }
     }
 }

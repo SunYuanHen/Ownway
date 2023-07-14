@@ -14,6 +14,13 @@ public class PlayerStat : MonoBehaviour
     public GameObject Events,upFrame;
     float Timer = 0,RoundTime;
 
+    void Start()
+    {
+        if(PlayerPrefs.HasKey("playerHp"))
+            player = new("玩家",PlayerPrefs.GetInt("playerHp"), PlayerPrefs.GetInt("playerAtk"),
+            PlayerPrefs.GetInt("playerDef"), PlayerPrefs.GetInt("playerSpd"));
+
+    }
     void Update()
     {
         if (player.Hp == 0) player = new("玩家", 125, 25, 25, 25);
@@ -39,7 +46,9 @@ public class PlayerStat : MonoBehaviour
             Timer += Time.deltaTime;
             if(Timer > RoundTime)
             {
+                GetComponent<AudioSource>().Stop();
                 Timer = 0;
+                GetComponent<AudioSource>().Play();
                 Battle();
                 round++;
             }
@@ -84,7 +93,8 @@ public class PlayerStat : MonoBehaviour
         if (enemy_GotDamage <= 0) enemy_GotDamage = 1;//傷害不得低於0
         if (player_GotDamage <= 0) player_GotDamage = 1;//傷害不得低於0
         if (gameMode == 3) RoundTime = 1f;
-        else if (round > 30) RoundTime = 0.02f;
+        else if (round > 50) RoundTime = 0.02f;
+        else if (round > 30) RoundTime = 0.05f;
         else if (round > 10) RoundTime = 0.1f;
         else RoundTime = 0.5f;
 

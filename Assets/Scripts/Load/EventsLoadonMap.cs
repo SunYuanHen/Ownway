@@ -93,7 +93,10 @@ public class EventsLoadonMap : MonoBehaviour
             //勝利模式
             case 5:
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
                     VictoryCanvas.GetComponent<Victory>().MoveAwayCanvas();
+                    GetComponent<AudioSource>().Play();
+                }
                 break;
             //結算模式
             case 6:
@@ -178,6 +181,7 @@ public class EventsLoadonMap : MonoBehaviour
         {
             gameMode = 1;
             Scripts.GetComponent<PlayerStat>().Upgrade();
+            GetComponent<AudioSource>().Play();
             ClearEvent(x, y);
             gameMode = 3;
         }

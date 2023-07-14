@@ -1,11 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+//At Title Scene
 public class TitleSelect : MonoBehaviour
 {
     public GameObject newGame, loadGame, exit,sceneLoader,quitControl;
     public int selectOption = 0;//0 = new, 1 = load, 2 = exit
 
+    void Start()
+    {
+        PlayerPrefs.SetInt("playerHp", 0);
+        PlayerPrefs.SetInt("playerAtk", 0);
+        PlayerPrefs.SetInt("playerDef", 0);
+        PlayerPrefs.SetInt("playerSpd", 0);
+    }
     void Update()
     {
         //上下選擇選單
