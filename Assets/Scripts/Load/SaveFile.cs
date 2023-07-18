@@ -17,7 +17,7 @@ public class SaveFile : MonoBehaviour
         //讀取目前玩家資料
         playerStat = new("玩家",
             PlayerPrefs.GetInt("playerHp"), PlayerPrefs.GetInt("playerAtk"),
-            PlayerPrefs.GetInt("playerDef"), PlayerPrefs.GetInt("playerSpd"));
+            PlayerPrefs.GetInt("playerDef"), PlayerPrefs.GetInt("playerSpd"), PlayerPrefs.GetInt("stage"));
         //載入所有存檔
         for (int i = 0; i < 3; i++) loadsPosition[i] = playerLoads[i].transform.position.y;
         GetSave();

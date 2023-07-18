@@ -22,7 +22,8 @@ public class EventsLoadonMap : MonoBehaviour
 
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Escape))
+            sceneControl.GetComponent<SceneLoader>().LoadScene("Title");
         switch (gameMode)
         {
             //探索模式
@@ -63,6 +64,7 @@ public class EventsLoadonMap : MonoBehaviour
                     PlayerPrefs.SetInt("playerAtk", Scripts.GetComponent<PlayerStat>().GetStats(2));
                     PlayerPrefs.SetInt("playerDef", Scripts.GetComponent<PlayerStat>().GetStats(3));
                     PlayerPrefs.SetInt("playerSpd", Scripts.GetComponent<PlayerStat>().GetStats(4));
+                    PlayerPrefs.SetInt("stage", Scripts.GetComponent<PlayerStat>().GetStats(5));
                     sceneControl.GetComponent<SceneLoader>().LoadScene("Save");
                 }
                 //如果打敗了BOSS
@@ -85,10 +87,7 @@ public class EventsLoadonMap : MonoBehaviour
             case 4:
                 DeadCanvas.transform.position = new Vector3(0, 0, 0);
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    Scripts.GetComponent<PlayerStat>().EndGame();
                     sceneControl.GetComponent<SceneLoader>().LoadScene("Title");
-                }
                 break;
             //勝利模式
             case 5:
@@ -101,10 +100,7 @@ public class EventsLoadonMap : MonoBehaviour
             //結算模式
             case 6:
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    Scripts.GetComponent<PlayerStat>().EndGame();
                     sceneControl.GetComponent<SceneLoader>().LoadScene("Title");
-                }
                 break;
             //其餘不動作
             default:
@@ -179,9 +175,31 @@ public class EventsLoadonMap : MonoBehaviour
         //寶物事件
         else if (eventSaver[x, y] == 1)
         {
+            
             gameMode = 1;
-            Scripts.GetComponent<PlayerStat>().Upgrade();
-            GetComponent<AudioSource>().Play();
+            //0~60: 能力提升, 61~80: 無, 81~100: 陷阱
+            int randomNumber = Random.Range(0,100);
+            int r;
+            if (randomNumber <= 60)
+                r = 0;
+            else if (randomNumber <= 80)
+                r = 1;
+            else
+                r = 2;
+            switch (r)
+            {
+                case 0:
+                    Scripts.GetComponent<PlayerStat>().Upgrade();
+                    GetComponent<AudioSource>().Play();
+                    break;
+                case 1:
+                    Scripts.GetComponent<PlayerStat>().Nothing();
+                    break;
+                case 2:
+                    Scripts.GetComponent<PlayerStat>().Trap();
+                    break;
+
+            }
             ClearEvent(x, y);
             gameMode = 3;
         }
