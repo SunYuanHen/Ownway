@@ -73,25 +73,13 @@ public class SelectSave : MonoBehaviour
             {
                 //根據位置進行存檔
                 case 0:
-                    PlayerPrefs.SetInt("playerHp",saves[0].Hp);
-                    PlayerPrefs.SetInt("playerAtk", saves[0].Atk);
-                    PlayerPrefs.SetInt("playerDef", saves[0].Def);
-                    PlayerPrefs.SetInt("playerSpd", saves[0].Spd);
-                    sceneLoader.GetComponent<SceneLoader>().LoadScene("World");
+                    SaveisReal(saves[0]);
                     break;
                 case 1:
-                    PlayerPrefs.SetInt("playerHP", saves[1].Hp);
-                    PlayerPrefs.SetInt("playerAtk", saves[1].Atk);
-                    PlayerPrefs.SetInt("playerDef", saves[1].Def);
-                    PlayerPrefs.SetInt("playerSpd", saves[1].Spd);
-                    sceneLoader.GetComponent<SceneLoader>().LoadScene("World");
+                    SaveisReal(saves[1]);
                     break;
                 case 2:
-                    PlayerPrefs.SetInt("playerHp", saves[2].Hp);
-                    PlayerPrefs.SetInt("playerAtk", saves[2].Atk);
-                    PlayerPrefs.SetInt("playerDef", saves[2].Def);
-                    PlayerPrefs.SetInt("playerSpd", saves[2].Spd);
-                    sceneLoader.GetComponent<SceneLoader>().LoadScene("World");
+                    SaveisReal(saves[2]);
                     break;
                 //返回首頁
                 case 3:
@@ -102,5 +90,18 @@ public class SelectSave : MonoBehaviour
             }
             
         }
+    }
+    void SaveisReal(People save)
+    {
+        if (save.Hp > 0)
+        {
+            PlayerPrefs.SetInt("playerHp", save.Hp);
+            PlayerPrefs.SetInt("playerAtk", save.Atk);
+            PlayerPrefs.SetInt("playerDef", save.Def);
+            PlayerPrefs.SetInt("playerSpd", save.Spd);
+            sceneLoader.GetComponent<SceneLoader>().LoadScene("World");
+        }
+        else
+            GetComponent<AudioSource>().Play();
     }
 }

@@ -9,7 +9,7 @@ public class PlayerStat : MonoBehaviour
     public Text UpgradeText;
     int playerNowHp = 0,rN = 0,rH = 0,rA = 0,rD = 0,rS = 0,gameMode = 3,round = 0;
     public bool spawn = false,playerDown = false;
-    static public People player = new("玩家",0,0,0,0);
+    public People player = new("玩家", 0, 0, 0, 0);
     public People enemy = new("", 0, 0, 0, 0);
     public GameObject Events,upFrame;
     float Timer = 0,RoundTime;
@@ -65,22 +65,23 @@ public class PlayerStat : MonoBehaviour
         rD = Random.Range(1, player.Atk - 10);
         rS = Random.Range(1, player.Spd * 3 / 2);
         enemy = new (enemyName[rN], rH, rA, rD, rS);
-        //Set player Hp
-        playerNowHp = player.Hp;
-        spawn = true;
-        round = 0;
+        StartBattle();
     }
 
     public void SpawnBossEvent()
     {
         string[] enemyName = { "野豬王","盜賊老大", "神偷", "蠻人領主", "飛龍","巨人"};
         rN = Random.Range(0, enemyName.Length);
-        rH = Random.Range(player.Hp, player.Hp * 3);
-        if (rH < 1000) rH = 1000;
-        rA = Random.Range(player.Atk, player.Atk * 3 / 2);
-        rD = Random.Range(10, player.Atk - 10);
-        rS = Random.Range(player.Spd / 2, player.Spd * 3 / 2);
+        rH = 1000;
+        rA = 150;
+        rD = 100;
+        rS = 80;
         enemy = new(enemyName[rN], rH, rA, rD, rS);
+        StartBattle();
+    }
+
+    public void StartBattle()
+    {
         //Set player Hp
         playerNowHp = player.Hp;
         spawn = true;
@@ -92,24 +93,29 @@ public class PlayerStat : MonoBehaviour
         int enemy_GotDamage = player.Atk - enemy.Def, player_GotDamage = enemy.Atk - player.Def;
         if (enemy_GotDamage <= 0) enemy_GotDamage = 1;//傷害不得低於0
         if (player_GotDamage <= 0) player_GotDamage = 1;//傷害不得低於0
+        //BOSS戰時速度固定，其餘部分依照回合數調整速度
         if (gameMode == 3) RoundTime = 1f;
         else if (round > 50) RoundTime = 0.02f;
         else if (round > 30) RoundTime = 0.05f;
         else if (round > 10) RoundTime = 0.1f;
         else RoundTime = 0.5f;
-
-        if (player.Spd >= enemy.Spd)//玩家比敵人快
+        //玩家比敵人快
+        if (player.Spd >= enemy.Spd)
         {
-
-            enemy.Hp -= enemy_GotDamage;//玩家攻擊
-            if (enemy.Hp <= 0)//敵人死亡
+            //玩家攻擊
+            enemy.Hp -= enemy_GotDamage;
+            //敵人死亡
+            if (enemy.Hp <= 0)
             {
                 enemy.Hp = 0;
-                Upgrade();//角色升級
+                //角色升級
+                Upgrade();
                 player_GotDamage = 0;
             }
-            playerNowHp -= player_GotDamage;//敵人攻擊
-            if (playerNowHp <= 0)//玩家死亡
+            //敵人攻擊
+            playerNowHp -= player_GotDamage;
+            //玩家死亡
+            if (playerNowHp <= 0)
             {
                 playerNowHp = 0;
                 playerDown = true;
@@ -118,23 +124,28 @@ public class PlayerStat : MonoBehaviour
         else//敵人比玩家快
         {
             if (enemy.Hp <= 0) player_GotDamage = 0;
-            playerNowHp -= player_GotDamage;//敵人攻擊
-            if (playerNowHp <= 0)//玩家死亡
+            //敵人攻擊
+            playerNowHp -= player_GotDamage;
+            //玩家死亡
+            if (playerNowHp <= 0)
             {
                 playerNowHp = 0;
                 playerDown = true;
             }
             if (playerDown) enemy_GotDamage = 0;
-            enemy.Hp -= enemy_GotDamage;//玩家攻擊
-            if (enemy.Hp <= 0)//敵人死亡
+            //玩家攻擊
+            enemy.Hp -= enemy_GotDamage;
+            //敵人死亡
+            if (enemy.Hp <= 0)
             {
                 enemy.Hp = 0;
-                Upgrade();//角色升級
+                //角色升級
+                Upgrade();
             }
         }
     }
-
-    public bool End()//判定戰鬥是否結束
+    //判定戰鬥是否結束
+    public bool End()
     {
         if (enemy.Hp == 0 || playerNowHp == 0)
         {
@@ -143,18 +154,19 @@ public class PlayerStat : MonoBehaviour
         }
         else return false;
     }
-
-    public bool Spawned()//敵人是否生成
+    //敵人是否生成
+    public bool Spawned()
     {
         if (spawn) return true;
         else return false;
     }
-
-    public bool PlayerisDead()//判定玩家是否死亡
+    //判定玩家是否死亡
+    public bool PlayerisDead()
     {
         return playerDown;
     }
-    public void Upgrade()//角色升級
+    //角色升級
+    public void Upgrade()
     {
         int n = Random.Range(0, 5);
         int up = 0;
@@ -215,7 +227,7 @@ public class PlayerStat : MonoBehaviour
                 return 0;
         }
     }
-
+    //金手指
     public void Godmode()
     {
         player.Hp += 10000;
