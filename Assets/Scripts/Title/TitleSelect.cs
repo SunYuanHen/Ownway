@@ -4,7 +4,14 @@ public class TitleSelect : MonoBehaviour
 {
     public GameObject newGame, loadGame, exit,sceneLoader,quitControl;
     public int selectOption = 0;//0 = new, 1 = load, 2 = exit
-
+    void Awake()
+    {
+        PlayerPrefs.SetInt("playerHp", 100);
+        PlayerPrefs.SetInt("playerAtk", 25);
+        PlayerPrefs.SetInt("playerDef", 25);
+        PlayerPrefs.SetInt("playerSpd", 25);
+        PlayerPrefs.SetInt("stage", 1);
+    }
     void Update()
     {
         //上下選擇選單
@@ -38,16 +45,10 @@ public class TitleSelect : MonoBehaviour
         {
             //新遊戲
             if (selectOption == 0)
-            {
-                PlayerPrefs.SetInt("playerHp", 0);
-                PlayerPrefs.SetInt("playerAtk", 0);
-                PlayerPrefs.SetInt("playerDef", 0);
-                PlayerPrefs.SetInt("playerSpd", 0);
-                PlayerPrefs.SetInt("stage", 1);
                 sceneLoader.GetComponent<SceneLoader>().LoadScene("Stage");
-            }
             //讀檔
-            else if (selectOption == 1) sceneLoader.GetComponent<SceneLoader>().LoadScene("Load");
+            else if (selectOption == 1) 
+                sceneLoader.GetComponent<SceneLoader>().LoadScene("Load");
             //離開遊戲
             else quitControl.GetComponent<Quit>().QuitGame();
         }

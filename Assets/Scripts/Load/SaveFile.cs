@@ -6,13 +6,13 @@ public class SaveFile : MonoBehaviour
 {
     public GameObject[] selection,playerLoads;
     public GameObject sceneLoader;
-    Transform[] stats = new Transform[4];
+    Transform[] stats = new Transform[5];
     public int selectOption = 0;//0~2 save, 3 = exit
     People playerStat;
     People[] saves = new People[3];
     string[] loadData = new string[3];
     float[] loadsPosition = new float[3];
-    void Start()
+    void Awake()
     {
         //讀取目前玩家資料
         playerStat = new("玩家",
@@ -24,12 +24,11 @@ public class SaveFile : MonoBehaviour
 
     }
     void Update()
-    {
-        
+    { 
         //設定存檔數據
         for(int i = 0; i < 3; i++)
             if(saves[i].Hp != 0) { 
-                for (int j = 0; j < 4; j++) 
+                for (int j = 0; j < 5; j++) 
                 { 
                     stats[j] = playerLoads[i].transform.GetChild(j);
                     switch (j)
@@ -45,6 +44,14 @@ public class SaveFile : MonoBehaviour
                             break;
                         case 3:
                             stats[j].GetComponent<Text>().text = "SPD\t" + saves[i].Spd.ToString();
+                            break;
+                        case 4:
+                            if(saves[i].stage == 3)
+                            {
+                                stats[j].GetComponent<Text>().text = "Clear!";
+                                stats[j].GetComponent<Text>().color = Color.yellow;
+                            }
+                            else stats[j].GetComponent<Text>().text = "Stage:\t" + saves[i].stage.ToString();
                             break;
                     }
                 }
@@ -83,7 +90,7 @@ public class SaveFile : MonoBehaviour
                     break;
                 //返回世界
                 case 3:
-                    sceneLoader.GetComponent<SceneLoader>().LoadScene("World");
+                    sceneLoader.GetComponent<SceneLoader>().LoadScene("Stage");
                     break;
                 default:
                     break;

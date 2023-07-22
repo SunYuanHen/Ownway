@@ -7,7 +7,7 @@ public class SelectSave : MonoBehaviour
     public GameObject[] selection, playerLoads;
     public GameObject sceneLoader;
     public Text del;
-    Transform[] stats = new Transform[4];
+    Transform[] stats = new Transform[5];
     public int selectOption = 0;//0~2 save, 3 = delete, 4 = exit
     People[] saves = new People[3];
     string[] loadData = new string[3];
@@ -36,7 +36,7 @@ public class SelectSave : MonoBehaviour
         {
             if (saves[i].Hp != 0)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     stats[j] = playerLoads[i].transform.GetChild(j);
                     SetText(i, j);
@@ -45,7 +45,7 @@ public class SelectSave : MonoBehaviour
             }
             else
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     stats[j] = playerLoads[i].transform.GetChild(j);
                     SetText(i, j);
@@ -135,6 +135,14 @@ public class SelectSave : MonoBehaviour
                 break;
             case 3:
                 stats[j].GetComponent<Text>().text = "SPD\t" + saves[i].Spd.ToString();
+                break;
+            case 4:
+                if (saves[i].stage == 3)
+                {
+                    stats[j].GetComponent<Text>().text = "Clear!";
+                    stats[j].GetComponent<Text>().color = Color.yellow;
+                }
+                else stats[j].GetComponent<Text>().text = "Stage:\t" + saves[i].stage.ToString();
                 break;
         }
     }

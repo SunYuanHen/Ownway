@@ -59,14 +59,7 @@ public class EventsLoadonMap : MonoBehaviour
                 }
                 //按R進行存檔並重置
                 if (Input.GetKeyDown(KeyCode.R)) 
-                {
-                    PlayerPrefs.SetInt("playerHp",Scripts.GetComponent<PlayerStat>().GetStats(1));
-                    PlayerPrefs.SetInt("playerAtk", Scripts.GetComponent<PlayerStat>().GetStats(2));
-                    PlayerPrefs.SetInt("playerDef", Scripts.GetComponent<PlayerStat>().GetStats(3));
-                    PlayerPrefs.SetInt("playerSpd", Scripts.GetComponent<PlayerStat>().GetStats(4));
-                    PlayerPrefs.SetInt("stage", Scripts.GetComponent<PlayerStat>().GetStats(5));
-                    sceneControl.GetComponent<SceneLoader>().LoadScene("Save");
-                }
+                    toSave();
                 //如果打敗了BOSS
                 if (!BossSpawned)
                 {
@@ -100,7 +93,10 @@ public class EventsLoadonMap : MonoBehaviour
             //結算模式
             case 6:
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-                    sceneControl.GetComponent<SceneLoader>().LoadScene("Title");
+                {
+                    Scripts.GetComponent<PlayerStat>().NextStage();
+                    toSave();
+                }
                 break;
             //其餘不動作
             default:
@@ -114,7 +110,15 @@ public class EventsLoadonMap : MonoBehaviour
            Scripts.GetComponent<PlayerStat>().Godmode();
         }
     }
-
+    private void toSave()
+    {
+        PlayerPrefs.SetInt("playerHp", Scripts.GetComponent<PlayerStat>().GetStats(1));
+        PlayerPrefs.SetInt("playerAtk", Scripts.GetComponent<PlayerStat>().GetStats(2));
+        PlayerPrefs.SetInt("playerDef", Scripts.GetComponent<PlayerStat>().GetStats(3));
+        PlayerPrefs.SetInt("playerSpd", Scripts.GetComponent<PlayerStat>().GetStats(4));
+        PlayerPrefs.SetInt("stage", Scripts.GetComponent<PlayerStat>().GetStats(5));
+        sceneControl.GetComponent<SceneLoader>().LoadScene("Save");
+    }
     public void SpawnEvent()
     {
         

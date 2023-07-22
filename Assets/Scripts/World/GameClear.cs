@@ -25,13 +25,13 @@ public class GameClear : MonoBehaviour
             texts[i - 1].text = i - 1 == 0 ? num.ToString() : (num * 2).ToString();
         }
         finalScore.text = score.ToString();
-        if (score > 100000) 
+        if (score > 10000) 
         { 
             finalScore.color = atkText.color;
             evaluateText.color = atkText.color;
             evaluateText.text = "GOD LIKE!!!";
         }
-        else if (score > 10000)
+        else if (score > 5000)
         {
             finalScore.color = defText.color;
             evaluateText.color = defText.color;
