@@ -190,7 +190,7 @@ public class PlayerStat : MonoBehaviour
         //ATK++
         if (n == 0)
         {
-            up = RandStat(player.Atk, 50);
+            up = RandStat(player.Atk, 10);
             UpgradeText.text = "獲得了 " + up + "攻擊!";
             UpgradeText.color = atkText.color;
             player.Atk += up;
@@ -199,7 +199,7 @@ public class PlayerStat : MonoBehaviour
         //DEF++
         else if (n == 1)
         {
-            up = RandStat(player.Def, 50);
+            up = RandStat(player.Def, 10);
             UpgradeText.text = "獲得了 " + up + "防禦!";
             UpgradeText.color = defText.color;
             player.Def += up;
@@ -208,7 +208,7 @@ public class PlayerStat : MonoBehaviour
         //SPD++
         else if (n == 2)
         {
-            up = RandStat(player.Spd, 50);
+            up = RandStat(player.Spd, 10);
             UpgradeText.text = "獲得了 " + up + "速度!";
             UpgradeText.color = spdText.color;
             player.Spd += up;
@@ -217,7 +217,7 @@ public class PlayerStat : MonoBehaviour
         //HP++
         else
         {
-            up = RandStat(player.Hp, 10);
+            up = RandStat(player.Hp, 50);
             UpgradeText.text = "獲得了 " + up + "生命!";
             UpgradeText.color = hpText.color;
             player.Hp += up;
@@ -241,28 +241,28 @@ public class PlayerStat : MonoBehaviour
         //ATK--
         if (n == 0)
         {
-            up = RandStat(player.Atk, 10);
+            up = RandStat(player.Atk, 5);
             UpgradeText.text = "陷阱!失去 " + up + "攻擊!";
             player.Atk -= up;
         }
         //DEF--
         else if (n == 1)
         {
-            up = RandStat(player.Def, 10);
+            up = RandStat(player.Def, 5);
             UpgradeText.text = "陷阱!失去 " + up + "防禦!";
             player.Def -= up;
         }
         //SPD--
         else if (n == 2)
         {
-            up = RandStat(player.Spd, 10);
+            up = RandStat(player.Spd, 5);
             UpgradeText.text = "陷阱!失去 " + up + "速度!";
             player.Spd -= up;
         }
         //HP--
         else
         {
-            up = RandStat(player.Hp, 10);
+            up = RandStat(player.Hp, 20);
             UpgradeText.text = "陷阱!失去 " + up + "生命!";
             player.Hp -= up;
         }
@@ -272,8 +272,8 @@ public class PlayerStat : MonoBehaviour
     //取得(失去)隨機能力
     int RandStat(int stat,int range)
     {
-        int total = ((stat * (100 + Random.Range(1, range)) / 100) - stat) * stage;
-        return total == 0 ? 1 : total;
+        int total = range > 10 ? Random.Range(10, range) : Random.Range(1, range);
+        return total;
     }
     public void CleanText()
     {

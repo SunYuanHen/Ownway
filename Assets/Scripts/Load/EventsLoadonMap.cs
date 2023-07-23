@@ -143,6 +143,14 @@ public class EventsLoadonMap : MonoBehaviour
                 eventSaver[i, j] = r;
             }
         }
+        if (!BossSpawned)
+        {
+            vertical = horizontal.transform.GetChild(0);
+            frame = vertical.transform.GetChild(0);
+            frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(2);
+            eventSaver[0, 0] = 2;
+            BossSpawned = true;
+        }
     }
     
     //將已完成事件清除
