@@ -80,13 +80,13 @@ public class SaveFile : MonoBehaviour
             {
                 //根據位置進行存檔
                 case 0:
-                    File.WriteAllText("Assets/Saves/Save1.json", json);
+                    File.WriteAllText(Application.dataPath + "/Saves/Save1.json", json);
                     break;
                 case 1:
-                    File.WriteAllText("Assets/Saves/Save2.json", json);
+                    File.WriteAllText(Application.dataPath + "/Saves/Save2.json", json);
                     break;
                 case 2:
-                    File.WriteAllText("Assets/Saves/Save3.json", json);
+                    File.WriteAllText(Application.dataPath + "/Saves/Save3.json", json);
                     break;
                 //返回世界
                 case 3:
