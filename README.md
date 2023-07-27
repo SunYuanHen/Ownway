@@ -7,3 +7,45 @@
 * 隨機事件
 * 自動戰鬥
 * 存讀檔
+## 隨機事件
+透過機率去隨機分配事件，每次玩家進入世界時會隨機生成
+`
+```C#
+public void SpawnEvent()
+    {
+        
+        int r,randomNumber;
+        BossSpawned = false;
+        //針對地圖每一格進行事件隨機產生
+        for (int i = 0;i < horizontal.transform.childCount; i++)
+        {
+            vertical = horizontal.transform.GetChild(i);
+            for (int j = 0;j< vertical.childCount; j++)
+            {
+                frame = vertical.transform.GetChild(j);
+                randomNumber = Random.Range(0, 100);
+                //機率範圍0~20 BOSS(2) 21~80 enemy(0) 81~99 chest(1)
+                if (randomNumber < 21) r = 2;
+                else if (randomNumber < 81) r = 0;
+                else r = 1;
+                if (i == 2 && j == 2) r = 3;
+                if (r == 2) 
+                {
+                    if (BossSpawned) r = 1;
+                    else BossSpawned = true;
+                }
+                frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(r);
+                eventSaver[i, j] = r;
+            }
+        }
+        if (!BossSpawned)
+        {
+            vertical = horizontal.transform.GetChild(0);
+            frame = vertical.transform.GetChild(0);
+            frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(2);
+            eventSaver[0, 0] = 2;
+            BossSpawned = true;
+        }
+    }
+```
+`
