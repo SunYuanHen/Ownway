@@ -8,11 +8,11 @@
 * 自動戰鬥
 * 存讀檔
 ## 隨機事件
-透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。
-地圖構成主要如下:
->horizontal:GameObject,整個地圖
->>vertical:Transform,行
->>>frame:Transform,格
+透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。<br>
+地圖構成主要如下:(**粗體**為名字，*斜體字*為類型)
+>**horizontal**:*GameObject*,整個地圖
+>>**vertical**:*Transform*,行
+>>>**frame**:*Transform*,格
 
 ```C#
 public void SpawnEvent()
