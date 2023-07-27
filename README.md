@@ -8,8 +8,12 @@
 * 自動戰鬥
 * 存讀檔
 ## 隨機事件
-透過機率去隨機分配事件，每次玩家進入世界時會隨機生成
-`
+透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。
+地圖構成主要如下:
+>horizontal:GameObject,整個地圖
+>>vertical:Transform,行
+>>>frame:Transform,格
+
 ```C#
 public void SpawnEvent()
     {
@@ -36,6 +40,7 @@ public void SpawnEvent()
                     if (BossSpawned) r = 1;
                     else BossSpawned = true;
                 }
+                //引用frame內建函式生成圖片
                 frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(r);
                 eventSaver[i, j] = r;
             }
@@ -50,4 +55,3 @@ public void SpawnEvent()
         }
     }
 ```
-`
