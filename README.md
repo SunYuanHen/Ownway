@@ -45,6 +45,7 @@ public void SpawnEvent()
                 eventSaver[i, j] = r;
             }
         }
+        //如果一個BOSS都沒有，使最左上方變更為BOSS
         if (!BossSpawned)
         {
             vertical = horizontal.transform.GetChild(0);
