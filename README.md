@@ -13,7 +13,7 @@
 ```C#
 public void SpawnEvent()
     {
-        
+        //用於分配事件和儲存機率
         int r,randomNumber;
         BossSpawned = false;
         //針對地圖每一格進行事件隨機產生
@@ -24,11 +24,13 @@ public void SpawnEvent()
             {
                 frame = vertical.transform.GetChild(j);
                 randomNumber = Random.Range(0, 100);
-                //機率範圍0~20 BOSS(2) 21~80 enemy(0) 81~99 chest(1)
+                //機率範圍: 0~20為BOSS(2) 21~80為敵人(0) 81~99為寶箱(1)
                 if (randomNumber < 21) r = 2;
                 else if (randomNumber < 81) r = 0;
                 else r = 1;
+                //中間設為空事件
                 if (i == 2 && j == 2) r = 3;
+                //根據BOSS是否已生成決定為BOSS或寶箱
                 if (r == 2) 
                 {
                     if (BossSpawned) r = 1;
