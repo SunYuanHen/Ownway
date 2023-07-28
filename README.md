@@ -110,7 +110,7 @@ public void SpawnEvent()
         if (gameMode == 2) RoundTime = 1f;
         else RoundTime = 0.5f;
     }
-
+    //根據速度先決定誰先攻，造成傷害為Atk-Def。傷害最低為1
     void Battle()
     {
         int enemy_GotDamage = player.Atk - enemy.Def,
