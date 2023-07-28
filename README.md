@@ -12,8 +12,9 @@
 地圖構成宣告變數如下:(**粗體**為名字，*斜體字*為類型)
 >**horizontal**:*GameObject*,整個地圖
 >>**vertical**:*Transform*,行
->>>**frame**:*Transform*,格
+>>>**frame**:*Transform*,格<br>
 
+*於EventsLoadonMap.cs中*
 ```C#
 public void SpawnEvent()
     {
@@ -59,3 +60,114 @@ public void SpawnEvent()
 ## 自動戰鬥
 在接觸戰鬥(BOSS)事件後，會隨機產生敵人能力(BOSS為固定)。
 戰鬥會以速度較快者優先行動，先將對方生命歸0者獲勝。
+*於PlayerStat.cs中*
+```C#
+//敵人生成
+    public void SpawnBattleEvent()
+    {
+        string[] enemyName = { "敵人1", "敵人2", "敵人3"};
+        //Spawn Enemy
+        rN = Random.Range(0, enemyName.Length);
+        rH = Random.Range(50, player.Hp * 3 / 2) * stage;
+        if (rH > 1000 * stage) rH = Random.Range(50, 1000 * stage);
+        rH = CantOver10000(rH);
+        rA = Random.Range(10, player.Def * 3 / 2) * stage;
+        if (rA > 150 * stage) rA = Random.Range(10, 150 * stage);
+        rA = CantOver10000(rA);
+        rD = Random.Range(10, player.Atk) * stage;
+        if (rD > 100 * stage) rD = Random.Range(10, 100 * stage);
+        rD = CantOver10000(rD);
+        rS = Random.Range(10, player.Spd * 3 / 2) * stage;
+        if (rS > 80 * stage) rS = Random.Range(10, 80 * stage);
+        rS = CantOver10000(rS);
+        enemy = new(enemyName[rN], rH, rA, rD, rS, stage);
+        StartBattle();
+    }
+    //Boss生成
+    public void SpawnBossEvent()
+    {
+        string[] enemyName = { "BOSS1","BOSS2", "BOSS3"};
+        rN = Random.Range(0, enemyName.Length);
+        rH = stage == 1 ? 1000 : 5000;
+        rA = stage == 1 ? 150 : 1500;
+        rD = stage == 1 ? 100 : 1000;
+        rS = stage == 1 ? 80 : 800;
+        enemy = new(enemyName[rN], rH, rA, rD, rS, stage);
+        StartBattle();
+    }
+
+    int CantOver10000(int i)
+    {
+        return i >= 10000 ? 9999 : i;
+    }
+    public void StartBattle()
+    {
+        //Set player Hp
+        playerNowHp = player.Hp;
+        spawn = true;
+        round = 0;
+        //BOSS戰時速度固定，其餘部分依照回合數調整速度
+        if (gameMode == 2) RoundTime = 1f;
+        else RoundTime = 0.5f;
+    }
+
+    void Battle()
+    {
+        int enemy_GotDamage = player.Atk - enemy.Def,
+            player_GotDamage = enemy.Atk - player.Def;
+        //傷害不得低於0
+        if (enemy_GotDamage <= 0) enemy_GotDamage = 1;
+        if (player_GotDamage <= 0) player_GotDamage = 1;
+        //BOSS戰時速度固定，其餘部分依照回合數調整速度
+        if (round >= 10)
+        {
+            round = 0;
+            RoundTime *= 0.5f;
+        }
+        //玩家比敵人快
+        if (player.Spd >= enemy.Spd)
+        {
+            //玩家攻擊
+            enemy.Hp -= enemy_GotDamage;
+            //敵人死亡
+            if (enemy.Hp <= 0)
+            {
+                enemy.Hp = 0;
+                //角色升級
+                Upgrade();
+                player_GotDamage = 0;
+            }
+            //敵人攻擊
+            playerNowHp -= player_GotDamage;
+            //玩家死亡
+            if (playerNowHp <= 0)
+            {
+                playerNowHp = 0;
+                playerDown = true;
+            }
+        }
+        //敵人比玩家快
+        else
+        {
+            if (enemy.Hp <= 0) player_GotDamage = 0;
+            //敵人攻擊
+            playerNowHp -= player_GotDamage;
+            //玩家死亡
+            if (playerNowHp <= 0)
+            {
+                playerNowHp = 0;
+                playerDown = true;
+            }
+            if (playerDown) enemy_GotDamage = 0;
+            //玩家攻擊
+            enemy.Hp -= enemy_GotDamage;
+            //敵人死亡
+            if (enemy.Hp <= 0)
+            {
+                enemy.Hp = 0;
+                //角色升級
+                Upgrade();
+            }
+        }
+    }
+```
