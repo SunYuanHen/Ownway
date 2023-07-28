@@ -66,7 +66,7 @@ public void SpawnEvent()
     public void SpawnBattleEvent()
     {
         string[] enemyName = { "敵人1", "敵人2", "敵人3"};
-        //Spawn Enemy
+        //能力隨機生成在不超過BOSS或玩家的條件下
         rN = Random.Range(0, enemyName.Length);
         rH = Random.Range(50, player.Hp * 3 / 2) * stage;
         if (rH > 1000 * stage) rH = Random.Range(50, 1000 * stage);
@@ -95,18 +95,18 @@ public void SpawnEvent()
         enemy = new(enemyName[rN], rH, rA, rD, rS, stage);
         StartBattle();
     }
-
+    //預設能力最大為9999
     int CantOver10000(int i)
     {
         return i >= 10000 ? 9999 : i;
     }
     public void StartBattle()
     {
-        //Set player Hp
+        //用於戰鬥中顯示目前剩餘血量
         playerNowHp = player.Hp;
         spawn = true;
         round = 0;
-        //BOSS戰時速度固定，其餘部分依照回合數調整速度
+        //BOSS戰時速度較慢，其餘較快
         if (gameMode == 2) RoundTime = 1f;
         else RoundTime = 0.5f;
     }
