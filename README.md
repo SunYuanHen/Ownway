@@ -171,3 +171,30 @@ public void SpawnEvent()
         }
     }
 ```
+## 存讀檔
+透過PlayerPrefs和json檔進行玩家能力的保存<br>
+*於SaveFile.cs中*
+```C#
+    void Awake()
+    {
+        //讀取目前玩家資料
+        playerStat = new("玩家",
+            PlayerPrefs.GetInt("playerHp"), PlayerPrefs.GetInt("playerAtk"),
+            PlayerPrefs.GetInt("playerDef"), PlayerPrefs.GetInt("playerSpd"), PlayerPrefs.GetInt("stage"));
+        //載入所有存檔
+        for (int i = 0; i < 3; i++) loadsPosition[i] = playerLoads[i].transform.position.y;
+        GetSave();
+    }
+
+    void GetSave()
+    {
+        //先抓取應用程式所在路徑再載入所有存檔
+        for (int i = 0; i < 3; i++)
+        {
+            string filePath = $"/Saves/Save{i + 1}.json";
+            string fullPath = (Application.dataPath + filePath);
+            loadData[i] = File.ReadAllText(fullPath);
+            saves[i] = JsonUtility.FromJson<People>(loadData[i]);
+        }
+    }
+```
