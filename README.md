@@ -1,5 +1,5 @@
 # Ownway
-(2023/7/31施工中...)
+(2023/7/31)目前先做個主要功能簡介，打算日後再各自增加程式碼介紹
 ## 簡介
 玩家透過在地圖中移動觸發事件，目標是打倒地圖中的BOSS<br>
 打倒BOSS會根據玩家能力值評分，目前只有兩關。
@@ -8,6 +8,7 @@
 * 自動戰鬥
 * 存讀檔
 ## 隨機事件
+<img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AITFw-yfAY40YriAVpVlvZxnCHm6_D75TOFbMGP8rn-fmL6p_dABf6fr9OBnm2p-A6p0Wd6Phs5Ze9iOGKjn4gc_AxjsVc6-og=w1920-h963" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「map.gif」" aria-hidden="true"><br>
 透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。<br>
 地圖構成宣告變數如下:(**粗體**為名字，*斜體字*為類型)
 >**horizontal**:*GameObject*,整個地圖
