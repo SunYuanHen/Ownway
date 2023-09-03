@@ -137,8 +137,11 @@ public class EventsLoadonMap : MonoBehaviour
                 else if (randomNumber < 81) r = 0;
                 else r = 1;
                 if (i == 2 && j == 2) r = 3;
-                if (r == 2 && BossSpawned) r = 1;
-                if (r == 2 && !BossSpawned) BossSpawned = true;
+                if (r == 2) 
+                {
+                    if (BossSpawned) r = 1;
+                    else BossSpawned = true;
+                }
                 frame.GetComponent<Frame_SpawnEvent>().SpawnEvent(r);
                 eventSaver[i, j] = r;
             }
