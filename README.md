@@ -9,7 +9,7 @@
 * 自動戰鬥
 * 存讀檔
 ## 隨機事件
-<img src="https://drive.google.com/file/d/1mrf66RIi5V8jepR204VkVSrZNhYBuOL0/view?usp=sharing" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「map.gif」" aria-hidden="true"><br>
+<img src="https://drive.google.com/uc?export=view&id=12VzJyHhCrPYvwkV3Ws2RTAbogGQCxJXy" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「map.gif」" aria-hidden="true"><br>
 透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。<br>
 地圖構成宣告變數如下:(**粗體**為名字，*斜體字*為類型)
 >**horizontal**:*GameObject*,整個地圖
