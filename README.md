@@ -60,7 +60,7 @@ public void SpawnEvent()
     }
 ```
 ## 自動戰鬥
-<img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AITFw-zjTh4WFAUJZEjqMNIo9sdIcHi5BPI9h2MeZzwvLnx15lgAHK27yUkC_ZJclwM823suEp2mIbHzHtQMbLbJvFyPYvt1=w1920-h963" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「battle.gif」" aria-hidden="true"><br>
+<img src="gif/battle.gif" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「battle.gif」" aria-hidden="true"><br>
 在接觸戰鬥(BOSS)事件後，會隨機產生敵人能力(BOSS為固定)。<br>
 戰鬥會以速度較快者優先行動，先將對方生命歸0者獲勝。<br>
 *於PlayerStat.cs中*
