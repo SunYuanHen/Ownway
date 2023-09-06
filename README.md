@@ -7,7 +7,7 @@
 ## 主要介紹功能
 * 隨機事件
 * 自動戰鬥
-* 存讀檔
+* 存讀檔(刪檔)
 ## 隨機事件
 <img src="gif/map.gif" class="ndfHFb-c4YZDc-HiaYvf-RJLb9c" alt="目前顯示的是「map.gif」" aria-hidden="true"><br>
 透過機率去隨機分配事件，每次玩家進入世界時會隨機生成。<br>
@@ -176,6 +176,7 @@ public void SpawnEvent()
 ```
 ## 存讀檔
 透過PlayerPrefs和json檔進行玩家能力的保存<br>
+在遊戲首頁中還有讀檔，裡面具備刪檔功能<br>
 *於SaveFile.cs中*
 ```C#
     void Awake()
