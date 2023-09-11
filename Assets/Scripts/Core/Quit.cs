@@ -6,7 +6,9 @@ public class Quit : MonoBehaviour
 {
     public void QuitGame()
     {
-        //UnityEditor.EditorApplication.isPlaying = false;
+        //正式版記得註解掉
+        UnityEditor.EditorApplication.isPlaying = false;
+
         Application.Quit();
     }
 }
